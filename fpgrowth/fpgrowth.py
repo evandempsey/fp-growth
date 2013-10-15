@@ -19,7 +19,7 @@ class FPNode(object):
         self.link = None
         self.children = []
 
-    def hasChild(self, value):
+    def has_child(self, value):
         """
         Check if node has a particular child node.
         """
@@ -29,7 +29,7 @@ class FPNode(object):
 
         return False
 
-    def getChild(self, value):
+    def get_child(self, value):
         """
         Return a child node with a particular value.
         """
@@ -39,7 +39,7 @@ class FPNode(object):
 
         return None
 
-    def addChild(self, value):
+    def add_child(self, value):
         """
         Add a node as a child node.
         """
@@ -53,17 +53,17 @@ class FPTree(object):
     A frequent pattern tree.
     """
 
-    def __init__(self, transactions, threshold, rootValue, rootCount):
+    def __init__(self, transactions, threshold, root_value, root_count):
         """
         Initialize the tree.
         """
-        self.frequent = self.findFrequentItems(transactions, threshold)
-        self.headers = self.buildHeaderTable(self.frequent)
-        self.root = self.buildFPTree(
-            transactions, rootValue,
-            rootCount, self.frequent, self.headers)
+        self.frequent = self.find_frequent_items(transactions, threshold)
+        self.headers = self.build_header_table(self.frequent)
+        self.root = self.build_FPTree(
+            transactions, root_value,
+            root_count, self.frequent, self.headers)
 
-    def findFrequentItems(self, transactions, threshold):
+    def find_frequent_items(self, transactions, threshold):
         """
         Create a dictionary of items with occurrences above the threshold.
         """
@@ -82,7 +82,7 @@ class FPTree(object):
 
         return items
 
-    def buildHeaderTable(self, frequent):
+    def build_header_table(self, frequent):
         """
         Build the header table.
         """
@@ -92,32 +92,32 @@ class FPTree(object):
 
         return headers
 
-    def buildFPTree(self, transactions, rootValue,
-                    rootCount, frequent, headers):
+    def build_FPTree(self, transactions, root_value,
+                    root_count, frequent, headers):
         """
         Build the FP tree and return the root node.
         """
-        root = FPNode(rootValue, rootCount, None)
+        root = FPNode(root_value, root_count, None)
 
         for transaction in transactions:
-            sortedItems = [x for x in transaction if x in frequent]
-            sortedItems.sort(key=lambda x: frequent[x], reverse=True)
-            if len(sortedItems) > 0:
-                self.insertTree(sortedItems, root, headers)
+            sorted_items = [x for x in transaction if x in frequent]
+            sorted_items.sort(key=lambda x: frequent[x], reverse=True)
+            if len(sorted_items) > 0:
+                self.insert_tree(sorted_items, root, headers)
 
         return root
 
-    def insertTree(self, items, node, headers):
+    def insert_tree(self, items, node, headers):
         """
         Recursively grow FP tree.
         """
         first = items[0]
-        child = node.getChild(first)
+        child = node.get_child(first)
         if child is not None:
             child.count += 1
         else:
             # Add new child.
-            child = node.addChild(first)
+            child = node.add_child(first)
 
             # Link it to header structure.
             if headers[first] is None:
@@ -129,33 +129,33 @@ class FPTree(object):
                 current.link = child
 
         # Call function recursively.
-        remainingItems = items[1:]
-        if len(remainingItems) > 0:
-            self.insertTree(remainingItems, child, headers)
+        remaining_items = items[1:]
+        if len(remaining_items) > 0:
+            self.insert_tree(remaining_items, child, headers)
 
-    def treeHasSinglePath(self, node):
+    def tree_has_single_path(self, node):
         """
         If there is a single path in the tree,
         return True, else return False.
         """
-        numChildren = len(node.children)
-        if numChildren > 1:
+        num_children = len(node.children)
+        if num_children > 1:
             return False
-        elif numChildren == 0:
+        elif num_children == 0:
             return True
         else:
-            return True and self.treeHasSinglePath(node.children[0])
+            return True and self.tree_has_single_path(node.children[0])
 
-    def minePatterns(self, threshold):
+    def mine_patterns(self, threshold):
         """
         Mine the constructed FP tree for frequent patterns.
         """
-        if self.treeHasSinglePath(self.root):
-            return self.generatePatternList()
+        if self.tree_has_single_path(self.root):
+            return self.generate_pattern_list()
         else:
-            return self.zipPatterns(self.mineSubTrees(threshold))
+            return self.zip_patterns(self.mine_sub_trees(threshold))
 
-    def zipPatterns(self, patterns):
+    def zip_patterns(self, patterns):
         """
         Append suffix to patterns in dictionary if
         we are in a conditional FP tree.
@@ -164,15 +164,15 @@ class FPTree(object):
 
         if suffix is not None:
             # We are in a conditional tree.
-            newPatterns = {}
+            new_patterns = {}
             for key in patterns.keys():
-                newPatterns[tuple(sorted(list(key) + [suffix]))] = patterns[key]
+                new_patterns[tuple(sorted(list(key) + [suffix]))] = patterns[key]
 
-            return newPatterns
+            return new_patterns
 
         return patterns
 
-    def generatePatternList(self):
+    def generate_pattern_list(self):
         """
         Generate a list of patterns with support counts.
         """
@@ -182,31 +182,31 @@ class FPTree(object):
         # If we are in a conditional tree,
         # the suffix is a pattern on its own.
         if self.root.value is None:
-            suffixValue = []
+            suffix_value = []
         else:
-            suffixValue = [self.root.value]
-            patterns[tuple(suffixValue)] = self.root.count
+            suffix_value = [self.root.value]
+            patterns[tuple(suffix_value)] = self.root.count
 
         for i in range(1, len(items) + 1):
             for subset in itertools.combinations(items, i):
-                pattern = tuple(sorted(list(subset) + suffixValue))
+                pattern = tuple(sorted(list(subset) + suffix_value))
                 patterns[pattern] = \
                     min([self.frequent[x] for x in subset])
 
         return patterns
 
-    def mineSubTrees(self, threshold):
+    def mine_sub_trees(self, threshold):
         """
         Generate subtrees and mine them for patterns.
         """
         patterns = {}
-        miningOrder = sorted(self.frequent.keys(),
-                             key=lambda x: self.frequent[x])
+        mining_order = sorted(self.frequent.keys(),
+                              key=lambda x: self.frequent[x])
 
         # Get items in tree in reverse order of occurrences.
-        for item in miningOrder:
+        for item in mining_order:
             suffixes = []
-            conditionalTreeInput = []
+            conditional_tree_input = []
             node = self.headers[item]
 
             # Follow node links to get a list of
@@ -227,25 +227,25 @@ class FPTree(object):
                     parent = parent.parent
 
                 for i in range(frequency):
-                    conditionalTreeInput.append(path)
+                    conditional_tree_input.append(path)
 
             # Now we have the input for a subtree,
             # so construct it and grab the patterns.
-            subtree = FPTree(conditionalTreeInput, threshold,
+            subtree = FPTree(conditional_tree_input, threshold,
                              item, self.frequent[item])
-            subtreePatterns = subtree.minePatterns(threshold)
+            subtree_patterns = subtree.mine_patterns(threshold)
 
             # Insert subtree patterns into main patterns dictionary.
-            for pattern in subtreePatterns.keys():
+            for pattern in subtree_patterns.keys():
                 if pattern in patterns:
-                    patterns[pattern] += subtreePatterns[pattern]
+                    patterns[pattern] += subtree_patterns[pattern]
                 else:
-                    patterns[pattern] = subtreePatterns[pattern]
+                    patterns[pattern] = subtree_patterns[pattern]
 
         return patterns
 
 
-def generateAssociationRules(patterns, confidenceThreshold):
+def generate_association_rules(patterns, confidence_threshold):
     """
     Given a set of frequent itemsets, return a dict
     of association rules in the form
@@ -253,7 +253,7 @@ def generateAssociationRules(patterns, confidenceThreshold):
     """
     rules = {}
     for itemset in patterns.keys():
-        upperSupport = patterns[itemset]
+        upper_support = patterns[itemset]
 
         for i in range(1, len(itemset)):
             for antecedent in itertools.combinations(itemset, i):
@@ -261,10 +261,10 @@ def generateAssociationRules(patterns, confidenceThreshold):
                 consequent = tuple(sorted(set(itemset) - set(antecedent)))
 
                 if antecedent in patterns:
-                    lowerSupport = patterns[antecedent]
-                    confidence = float(upperSupport) / lowerSupport
+                    lower_support = patterns[antecedent]
+                    confidence = float(upper_support) / lower_support
 
-                    if confidence >= confidenceThreshold:
+                    if confidence >= confidence_threshold:
                         rules[antecedent] = (consequent, confidence)
 
     return rules
@@ -274,8 +274,10 @@ def main():
     """
     Main function including tests.
     """
-    print "*** Testing FPGrowth Algorithm ***"
     sys.setrecursionlimit(10000)
+
+    print "*** FPGrowth Algorithm Demo ***"
+    print "Mining small dataset..."
 
     # Example from Data Mining textbook.
     transactions = [[1, 2, 5],
@@ -288,30 +290,31 @@ def main():
                     [1, 2, 3, 5],
                     [1, 2, 3]]
 
-    supportThreshold = 2
-    tree = FPTree(transactions, supportThreshold, None, None)
-    patterns = tree.minePatterns(supportThreshold)
+    support_threshold = 2
+    tree = FPTree(transactions, support_threshold, None, None)
+    patterns = tree.mine_patterns(support_threshold)
 
     print "Frequent patterns:", patterns
     print "Patterns found:", len(patterns)
 
+    print "Mining large dataset..."
     # Belgian supermarket checkout data.
     data = open("belgian_retail_baskets.dat")
     lines = data.readlines()
-    bigDataset = [None] * len(lines)
+    big_dataset = [None] * len(lines)
     for i, line in enumerate(lines):
-        bigDataset[i] = [int(x) for x in lines[i].split()]
+        big_dataset[i] = [int(x) for x in lines[i].split()]
 
-    supportThreshold = 100
-    tree = FPTree(bigDataset, supportThreshold, None, None)
-    patterns = tree.minePatterns(supportThreshold)
+    support_threshold = 100
+    tree = FPTree(big_dataset, support_threshold, None, None)
+    patterns = tree.mine_patterns(support_threshold)
 
     print "Frequent patterns:", patterns
     print "Patterns found:", len(patterns)
 
     # Generate association rules from the frequent itemsets.
-    minConfidence = 0.7
-    rules = generateAssociationRules(patterns, minConfidence)
+    min_confidence = 0.7
+    rules = generate_association_rules(patterns, min_confidence)
     for rule in rules.keys():
         print rule, "=>", rules[rule]
 
