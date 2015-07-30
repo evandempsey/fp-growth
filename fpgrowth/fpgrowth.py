@@ -215,7 +215,7 @@ class FPTree(object):
                 suffixes.append(node)
                 node = node.link
 
-            # For each occurrence of the item, 
+            # For each occurrence of the item,
             # trace the path back to the root node.
             for suffix in suffixes:
                 frequency = suffix.count
@@ -245,7 +245,10 @@ class FPTree(object):
         return patterns
 
 
-def generate_association_rules(patterns, confidence_threshold):
+def generate_association_rules(
+        patterns,
+        confidence_threshold,
+        lower_support_threshold):
     """
     Given a set of frequent itemsets, return a dict
     of association rules in the form
@@ -264,7 +267,10 @@ def generate_association_rules(patterns, confidence_threshold):
                     lower_support = patterns[antecedent]
                     confidence = float(upper_support) / lower_support
 
-                    if confidence >= confidence_threshold:
+                    is_a_rule = (
+                        confidence >= confidence_threshold and
+                        lower_support >= lower_support_threshold)
+                    if is_a_rule:
                         rules[antecedent] = (consequent, confidence)
 
     return rules
