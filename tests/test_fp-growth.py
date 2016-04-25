@@ -2,18 +2,18 @@
 # -*- coding: utf-8 -*-
 
 """
-test_fp-growth
+test_fpgrowth
 ----------------------------------
 
-Tests for `fp-growth` module.
+Tests for `fpgrowth` module.
 """
 
 import unittest
 
-from fp-growth import fp-growth
+from fpgrowth import fpgrowth
 
 
-class TestFp-growth(unittest.TestCase):
+class TestFpgrowth(unittest.TestCase):
 
     def setUp(self):
         pass

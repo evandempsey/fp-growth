@@ -6,9 +6,9 @@ Installation
 
 At the command line::
 
-    $ easy_install fp-growth
+    $ easy_install fpgrowth
 
 Or, if you have virtualenvwrapper installed::
 
-    $ mkvirtualenv fp-growth
-    $ pip install fp-growth
+    $ mkvirtualenv fpgrowth
+    $ pip install fpgrowth
