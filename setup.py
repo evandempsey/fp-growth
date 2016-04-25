@@ -33,8 +33,8 @@ setup(
     packages=[
         'fp-growth',
     ],
-    package_dir={'fp-growth':
-                 'fp-growth'},
+    package_dir={'fpgrowth':
+                 'fpgrowth'},
     include_package_data=True,
     install_requires=requirements,
     license="ISCL",
