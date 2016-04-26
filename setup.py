@@ -23,7 +23,7 @@ test_requirements = [
 ]
 
 setup(
-    name='fpgrowth',
+    name='pyfpgrowth',
     version='0.1.0',
     description="A Python implementation of the Frequent Pattern Growth algorithm.",
     long_description=readme + '\n\n' + history,
@@ -31,15 +31,15 @@ setup(
     author_email='me@evandempsey.io',
     url='https://github.com/evandempsey/fp-growth',
     packages=[
-        'fpgrowth',
+        'pyfpgrowth',
     ],
-    package_dir={'fpgrowth':
-                 'fpgrowth'},
+    package_dir={'pyfpgrowth':
+                 'pyfpgrowth'},
     include_package_data=True,
     install_requires=requirements,
     license="ISCL",
     zip_safe=False,
-    keywords='fpgrowth',
+    keywords='pyfpgrowth',
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
         'Intended Audience :: Developers',

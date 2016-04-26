@@ -3,7 +3,7 @@ FP-Growth
 ===============================
 
 .. image:: https://img.shields.io/pypi/v/fp-growth.svg
-        :target: https://pypi.python.org/pypi/fpgrowth
+        :target: https://pypi.python.org/pypi/pyfpgrowth
 
 .. image:: https://img.shields.io/travis/evandempsey/fp-growth.svg
         :target: https://travis-ci.org/evandempsey/fp-growth

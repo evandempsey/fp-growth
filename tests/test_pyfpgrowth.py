@@ -2,15 +2,14 @@
 # -*- coding: utf-8 -*-
 
 """
-test_fpgrowth
+test_pyfpgrowth
 ----------------------------------
 
-Tests for `fpgrowth` module.
+Tests for pyfpgrowth` module.
 """
 
 import unittest
-
-from fpgrowth import fpgrowth
+import pyfpgrowth
 
 
 class TestFpgrowth(unittest.TestCase):

@@ -1,5 +1,5 @@
 import unittest
-from fpgrowth import *
+from pyfpgrowth import *
 
 
 class FPNodeTests(unittest.TestCase):
