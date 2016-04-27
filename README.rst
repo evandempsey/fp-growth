@@ -12,6 +12,8 @@ FP-Growth
         :target: https://readthedocs.org/projects/fp-growth/?badge=latest
         :alt: Documentation Status
 
+.. image:: https://coveralls.io/repos/github/evandempsey/fp-growth/badge.svg
+        :target: https://coveralls.io/github/evandempsey/fp-growth
 
 A Python implementation of the Frequent Pattern Growth algorithm.
 
