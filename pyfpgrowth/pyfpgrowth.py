@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 import sys
 import itertools
 
@@ -76,7 +74,7 @@ class FPTree(object):
                 else:
                     items[item] = 1
 
-        for key in items.keys():
+        for key in list(items.keys()):
             if items[key] < threshold:
                 del items[key]
 

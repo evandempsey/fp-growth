@@ -24,7 +24,7 @@ test_requirements = [
 
 setup(
     name='pyfpgrowth',
-    version='0.1.0',
+    version='1.0',
     description="A Python implementation of the Frequent Pattern Growth algorithm.",
     long_description=readme + '\n\n' + history,
     author="Evan Dempsey",
@@ -41,7 +41,7 @@ setup(
     zip_safe=False,
     keywords='pyfpgrowth',
     classifiers=[
-        'Development Status :: 2 - Pre-Alpha',
+        'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: ISC License (ISCL)',
         'Natural Language :: English',
