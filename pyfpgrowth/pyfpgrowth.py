@@ -56,11 +56,12 @@ class FPTree(object):
         """
         self.frequent = self.find_frequent_items(transactions, threshold)
         self.headers = self.build_header_table(self.frequent)
-        self.root = self.build_FPTree(
+        self.root = self.build_fptree(
             transactions, root_value,
             root_count, self.frequent, self.headers)
 
-    def find_frequent_items(self, transactions, threshold):
+    @staticmethod
+    def find_frequent_items(transactions, threshold):
         """
         Create a dictionary of items with occurrences above the threshold.
         """
@@ -79,7 +80,8 @@ class FPTree(object):
 
         return items
 
-    def build_header_table(self, frequent):
+    @staticmethod
+    def build_header_table(frequent):
         """
         Build the header table.
         """
@@ -89,8 +91,8 @@ class FPTree(object):
 
         return headers
 
-    def build_FPTree(self, transactions, root_value,
-                    root_count, frequent, headers):
+    def build_fptree(self, transactions, root_value,
+                     root_count, frequent, headers):
         """
         Build the FP tree and return the root node.
         """
