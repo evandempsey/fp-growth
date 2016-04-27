@@ -18,10 +18,36 @@ A Python implementation of the Frequent Pattern Growth algorithm.
 * Free software: ISC license
 * Documentation: https://fp-growth.readthedocs.org.
 
-Features
---------
+Getting Started
+---------------
 
-* TODO
+You can install the package with pip::
+
+    pip install pyfpgrowth
+
+Then, to use it in a project, inport it and use the find_frequent_patterns and generate_association_rules functions::
+
+    import pyfpgrowth
+
+It is assumed that your transactions are a sequence of sequences representing items in baskets. The item IDs are integers::
+
+    transactions = [[1, 2, 5],
+                    [2, 4],
+                    [2, 3],
+                    [1, 2, 4],
+                    [1, 3],
+                    [2, 3],
+                    [1, 3],
+                    [1, 2, 3, 5],
+                    [1, 2, 3]]
+
+Use find_frequent_patterns to find patterns in baskets that occur over the support threshold::
+
+    patterns = pyfpgrowth.find_frequent_patterns(transactions, 2)
+
+Use generate_association_rules to find patterns that are associated with another with a certain minimum probability::
+
+    rules = pyfpgrowth.generate_association_rules(patterns, 0.7)
 
 Credits
 ---------
