@@ -10,6 +10,7 @@ Tests for pyfpgrowth` module.
 
 import unittest
 from pyfpgrowth import *
+from pyfpgrowth.pyfpgrowth import FPNode, FPTree
 
 
 class FPNodeTests(unittest.TestCase):
@@ -49,9 +50,9 @@ class FPNodeTests(unittest.TestCase):
         self.assertEquals(type(self.node.get_child(3)), type(self.node))
 
 
-class FPGrowthTests(unittest.TestCase):
+class FPTreeTests(unittest.TestCase):
     """
-    Tests for the fp growth implementation.
+    Tests for the FPTree class.
     """
 
     def test_build_header_table(self):
@@ -66,24 +67,37 @@ class FPGrowthTests(unittest.TestCase):
         self.assertEquals(headers[2], None)
         self.assertEquals(headers[6], None)
 
-    def test_mine_patterns(self):
-        transactions = [[1, 2, 5],
-                        [2, 4],
-                        [2, 3],
-                        [1, 2, 4],
-                        [1, 3],
-                        [2, 3],
-                        [1, 3],
-                        [1, 2, 3, 5],
-                        [1, 2, 3]]
 
-        support_threshold = 2
-        tree = FPTree(transactions, support_threshold, None, None)
-        patterns = tree.mine_patterns(support_threshold)
+class FPGrowthTests(unittest.TestCase):
+    """
+    Tests everything together.
+    """
+    support_threshold = 2
+    transactions = [[1, 2, 5],
+                    [2, 4],
+                    [2, 3],
+                    [1, 2, 4],
+                    [1, 3],
+                    [2, 3],
+                    [1, 3],
+                    [1, 2, 3, 5],
+                    [1, 2, 3]]
+
+    def test_find_frequent_patterns(self):
+        patterns = find_frequent_patterns(self.transactions, self.support_threshold)
 
         expected = {(1, 2): 4, (1, 2, 3): 2, (1, 3): 4, (1,): 6, (2,): 7, (2, 4): 2,
                     (1, 5): 2, (5,): 2, (2, 3): 4, (2, 5): 2, (4,): 2, (1, 2, 5): 2}
         self.assertEqual(patterns, expected)
+
+    def test_generate_association_rules(self):
+        patterns = find_frequent_patterns(self.transactions, self.support_threshold)
+        rules = generate_association_rules(patterns, 0.7)
+
+        expected = {(1, 5): ((2,), 1.0), (5,): ((1, 2), 1.0),
+                    (2, 5): ((1,), 1.0), (4,): ((2,), 1.0)}
+        self.assertEqual(rules, expected)
+
 
 if __name__ == '__main__':
     import sys

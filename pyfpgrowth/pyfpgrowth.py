@@ -242,6 +242,15 @@ class FPTree(object):
         return patterns
 
 
+def find_frequent_patterns(transactions, support_threshold):
+    """
+    Given a set of transactions, find the patterns in it
+    over the specified support threshold.
+    """
+    tree = FPTree(transactions, support_threshold, None, None)
+    return tree.mine_patterns(support_threshold)
+
+
 def generate_association_rules(patterns, confidence_threshold):
     """
     Given a set of frequent itemsets, return a dict
