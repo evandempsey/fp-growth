@@ -1,4 +1,3 @@
-import sys
 import itertools
 
 
@@ -266,58 +265,3 @@ def generate_association_rules(patterns, confidence_threshold):
                         rules[antecedent] = (consequent, confidence)
 
     return rules
-
-
-# def main():
-#     """
-#     Main function including tests.
-#     """
-#     sys.setrecursionlimit(10000)
-#
-#     print "*** FPGrowth Algorithm Demo ***"
-#     print "Mining small dataset..."
-#
-#     # Example from Data Mining textbook.
-#     transactions = [[1, 2, 5],
-#                     [2, 4],
-#                     [2, 3],
-#                     [1, 2, 4],
-#                     [1, 3],
-#                     [2, 3],
-#                     [1, 3],
-#                     [1, 2, 3, 5],
-#                     [1, 2, 3]]
-#
-#     support_threshold = 2
-#     tree = FPTree(transactions, support_threshold, None, None)
-#     patterns = tree.mine_patterns(support_threshold)
-#
-#     print "Frequent patterns:", patterns
-#     print "Patterns found:", len(patterns)
-#
-#     print "Mining large dataset..."
-#     # Belgian supermarket checkout data.
-#     data = open("belgian_retail_baskets.dat")
-#     lines = data.readlines()
-#     big_dataset = [None] * len(lines)
-#     for i, line in enumerate(lines):
-#         big_dataset[i] = [int(x) for x in lines[i].split()]
-#
-#     support_threshold = 100
-#     tree = FPTree(big_dataset, support_threshold, None, None)
-#     patterns = tree.mine_patterns(support_threshold)
-#
-#     print "Frequent patterns:", patterns
-#     print "Patterns found:", len(patterns)
-#
-#     # Generate association rules from the frequent itemsets.
-#     min_confidence = 0.7
-#     rules = generate_association_rules(patterns, min_confidence)
-#     for rule in rules.keys():
-#         print rule, "=>", rules[rule]
-#
-#     print "Number of rules found:", len(rules)
-#
-#
-# if __name__ == "__main__":
-#     main()
