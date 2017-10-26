@@ -241,6 +241,12 @@ class FPTree(object):
                 else:
                     patterns[pattern] = subtree_patterns[pattern]
 
+            #add self into patterns
+            if tuple([item]) in patterns:
+                patterns[tuple([item])] += len(conditional_tree_input)
+            else:
+                patterns[tuple([item])] = len(conditional_tree_input)
+
         return patterns
 
 
