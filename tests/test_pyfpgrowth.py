@@ -95,7 +95,7 @@ class FPGrowthTests(unittest.TestCase):
     def test_find_frequent_patterns(self):
         patterns = find_frequent_patterns(self.transactions, self.support_threshold)
 
-        self.assertDictEqual(patterns, self.expected_frequent_item_sets)
+        self.assertEqual(patterns, self.expected_frequent_item_sets)
 
     def test_generate_association_rules(self):
         confidence_threshold = 0.1
@@ -117,7 +117,7 @@ class FPGrowthTests(unittest.TestCase):
                     expected[(left_side, right_side)] = (support, confidence)
 
         association_rules = generate_association_rules(self.expected_frequent_item_sets, confidence_threshold)
-        self.assertDictEqual(expected, association_rules)
+        self.assertEqual(expected, association_rules)
 
 
 if __name__ == '__main__':
