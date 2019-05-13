@@ -9,6 +9,8 @@ Tests for pyfpgrowth` module.
 """
 
 import unittest
+from itertools import chain, combinations
+
 from pyfpgrowth import *
 from pyfpgrowth.pyfpgrowth import FPNode, FPTree
 
@@ -71,34 +73,54 @@ class FPTreeTests(unittest.TestCase):
 class FPGrowthTests(unittest.TestCase):
     """
     Tests everything together.
+
+    Example is taken from [Agrawal1994]_.
+
+    .. [Agrawal1994] Rakesh Agrawal and Ramakrishnan Srikant. 1994. Fast Algorithms for
+       Mining Association Rules in Large Databases. In Proceedings of the 20th
+       International Conference on Very Large Data Bases (VLDB '94), Jorge B. Bocca,
+       Matthias Jarke, and Carlo Zaniolo (Eds.). Morgan Kaufmann Publishers Inc., San
+       Francisco, CA, USA, 487-499.
     """
     support_threshold = 2
-    transactions = [[1, 2, 5],
-                    [2, 4],
-                    [2, 3],
-                    [1, 2, 4],
-                    [1, 3],
-                    [2, 3],
-                    [1, 3],
-                    [1, 2, 3, 5],
-                    [1, 2, 3]]
+    transactions = [
+        [1, 3, 4],
+        [2, 3, 5],
+        [1, 2, 3, 5],
+        [2, 5]
+    ]
+    expected_frequent_item_sets = {(1,): 2, (2,): 3, (3,): 3, (5,): 3, (1, 3): 2, (2, 3): 2, (2, 5): 3, (3, 5): 2,
+                                   (2, 3, 5): 2}
 
     def test_find_frequent_patterns(self):
         patterns = find_frequent_patterns(self.transactions, self.support_threshold)
 
-        expected = {(1, 2): 4, (1, 2, 3): 2, (1, 3): 4, (1,): 6, (2,): 7, (2, 4): 2,
-                    (1, 5): 2, (5,): 2, (2, 3): 4, (2, 5): 2, (4,): 2, (1, 2, 5): 2}
-        self.assertEqual(patterns, expected)
+        self.assertEquals(patterns, self.expected_frequent_item_sets)
 
     def test_generate_association_rules(self):
-        patterns = find_frequent_patterns(self.transactions, self.support_threshold)
-        rules = generate_association_rules(patterns, 0.7)
+        confidence_threshold = 0.1
 
-        expected = {(1, 5): ((2,), 1.0), (5,): ((1, 2), 1.0),
-                    (2, 5): ((1,), 1.0), (4,): ((2,), 1.0)}
-        self.assertEqual(rules, expected)
+        def get_non_empty_subsets(iterable):
+            """Return all non empty subsets of ``iterable`` including ``iterable`` itself."""
+            s = list(iterable)
+            return chain.from_iterable(combinations(s, r) for r in range(1, len(s) + 1))
+
+        expected = {}
+        for frequent_item in self.expected_frequent_item_sets:
+            for left_side in get_non_empty_subsets(frequent_item):
+                support = self.expected_frequent_item_sets[frequent_item]
+                support_of_left_side = self.expected_frequent_item_sets[left_side]
+                right_side = tuple(sorted(set(frequent_item) - set(left_side)))
+                confidence = self.expected_frequent_item_sets[frequent_item] / support_of_left_side
+
+                if confidence >= confidence_threshold:
+                    expected[(left_side, right_side)] = (support, confidence)
+
+        association_rules = generate_association_rules(self.expected_frequent_item_sets, confidence_threshold)
+        self.assertEquals(expected, association_rules)
 
 
 if __name__ == '__main__':
     import sys
+
     sys.exit(unittest.main())

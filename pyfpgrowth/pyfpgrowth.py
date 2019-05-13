@@ -257,13 +257,13 @@ def generate_association_rules(patterns, confidence_threshold):
     """
     Given a set of frequent itemsets, return a dict
     of association rules in the form
-    {(left): ((right), confidence)}
+    {(left, right): (support, confidence)}
     """
     rules = {}
     for itemset in patterns.keys():
         upper_support = patterns[itemset]
 
-        for i in range(1, len(itemset)):
+        for i in range(1, len(itemset) + 1):
             for antecedent in itertools.combinations(itemset, i):
                 antecedent = tuple(sorted(antecedent))
                 consequent = tuple(sorted(set(itemset) - set(antecedent)))
@@ -273,6 +273,6 @@ def generate_association_rules(patterns, confidence_threshold):
                     confidence = float(upper_support) / lower_support
 
                     if confidence >= confidence_threshold:
-                        rules[antecedent] = (consequent, confidence)
+                        rules[(antecedent, consequent)] = (upper_support, confidence)
 
     return rules
