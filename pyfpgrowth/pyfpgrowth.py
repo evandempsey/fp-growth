@@ -152,7 +152,12 @@ class FPTree(object):
         if self.tree_has_single_path(self.root):
             return self.generate_pattern_list()
         else:
-            return self.zip_patterns(self.mine_sub_trees(threshold))
+            patterns = self.zip_patterns(self.mine_sub_trees(threshold))
+            if tuple([self.root.value]) not in patterns and self.root.value != None:
+                patterns[tuple([self.root.value])] = self.root.count
+
+        return patterns
+
 
     def zip_patterns(self, patterns):
         """
