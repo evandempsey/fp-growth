@@ -27,7 +27,7 @@ You can install the package with pip::
 
     pip install pyfpgrowth
 
-Then, to use it in a project, inport it and use the find_frequent_patterns and generate_association_rules functions::
+Then, to use it in a project, import it and use the find_frequent_patterns and generate_association_rules functions::
 
     import pyfpgrowth
 
