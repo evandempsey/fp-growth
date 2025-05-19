@@ -224,9 +224,9 @@ def find_frequent_patterns(
 
 def generate_association_rules(
     patterns: Dict[Tuple[Any, ...], int], confidence_threshold: float
-) -> Dict[Tuple[Any, ...], Tuple[Tuple[Any, ...], float]]:
-    """Return association rules with confidence >= ``confidence_threshold``."""
-    rules: Dict[Tuple[Any, ...], Tuple[Tuple[Any, ...], float]] = {}
+) -> Dict[Tuple[Any, ...], List[Tuple[Tuple[Any, ...], float]]]:
+    """Return rules grouped by antecedent with confidence >= ``confidence_threshold``."""
+    rules: Dict[Tuple[Any, ...], List[Tuple[Tuple[Any, ...], float]]] = {}
     for itemset, upper_support in patterns.items():
         for i in range(1, len(itemset)):
             for antecedent in itertools.combinations(itemset, i):
@@ -238,6 +238,8 @@ def generate_association_rules(
                     confidence = upper_support / float(lower_support)
 
                     if confidence >= confidence_threshold:
-                        rules[antecedent] = (consequent, confidence)
+                        rules.setdefault(antecedent, []).append(
+                            (consequent, confidence)
+                        )
 
     return rules

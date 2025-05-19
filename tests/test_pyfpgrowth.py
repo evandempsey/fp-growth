@@ -94,8 +94,12 @@ class FPGrowthTests(unittest.TestCase):
         patterns = find_frequent_patterns(self.transactions, self.support_threshold)
         rules = generate_association_rules(patterns, 0.7)
 
-        expected = {(1, 5): ((2,), 1.0), (5,): ((1, 2), 1.0),
-                    (2, 5): ((1,), 1.0), (4,): ((2,), 1.0)}
+        expected = {
+            (5,): [((1,), 1.0), ((2,), 1.0), ((1, 2), 1.0)],
+            (1, 5): [((2,), 1.0)],
+            (2, 5): [((1,), 1.0)],
+            (4,): [((2,), 1.0)],
+        }
         self.assertEqual(rules, expected)
 
 

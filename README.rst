@@ -51,6 +51,8 @@ Use generate_association_rules to find patterns that are associated with another
 
     rules = pyfpgrowth.generate_association_rules(patterns, 0.7)
 
+``rules`` maps each antecedent to a list of ``(consequent, confidence)`` tuples.
+
 Credits
 ---------
 
