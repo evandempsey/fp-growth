@@ -29,25 +29,25 @@ class FPNodeTests(unittest.TestCase):
         """
         Create a root node and test that it has no parent.
         """
-        self.assertEquals(self.node.has_child(3), False)
-        self.assertEquals(self.node.has_child(2), True)
+        self.assertFalse(self.node.has_child(3))
+        self.assertTrue(self.node.has_child(2))
 
     def test_get_child(self):
         """
         Test that getChild() returns a node for a valid value
         and None for an invalid value.
         """
-        self.assertNotEquals(self.node.get_child(2), None)
-        self.assertEquals(self.node.get_child(5), None)
+        self.assertIsNotNone(self.node.get_child(2))
+        self.assertIsNone(self.node.get_child(5))
 
     def test_add_child(self):
         """
         Test that addChild() successfully adds a child node.
         """
-        self.assertEquals(self.node.get_child(3), None)
+        self.assertIsNone(self.node.get_child(3))
         self.node.add_child(3)
-        self.assertNotEquals(self.node.get_child(3), None)
-        self.assertEquals(type(self.node.get_child(3)), type(self.node))
+        self.assertIsNotNone(self.node.get_child(3))
+        self.assertEqual(type(self.node.get_child(3)), type(self.node))
 
 
 class FPTreeTests(unittest.TestCase):
@@ -63,9 +63,9 @@ class FPTreeTests(unittest.TestCase):
         frequent = {1: 12, 2: 43, 6: 32}
         headers = tree.build_header_table(frequent)
 
-        self.assertEquals(headers[1], None)
-        self.assertEquals(headers[2], None)
-        self.assertEquals(headers[6], None)
+        self.assertIsNone(headers[1])
+        self.assertIsNone(headers[2])
+        self.assertIsNone(headers[6])
 
 
 class FPGrowthTests(unittest.TestCase):
