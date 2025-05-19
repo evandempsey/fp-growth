@@ -14,7 +14,7 @@
 # serve to show the default.
 
 import sys
-import os
+from pathlib import Path
 
 # If extensions (or modules to document with autodoc) are in another
 # directory, add these directories to sys.path here. If the directory is
@@ -23,13 +23,13 @@ import os
 #sys.path.insert(0, os.path.abspath('.'))
 
 # Get the project root dir, which is the parent dir of this
-cwd = os.getcwd()
-project_root = os.path.dirname(cwd)
+cwd = Path.cwd()
+project_root = cwd.parent
 
 # Insert the project root dir as the first element in the PYTHONPATH.
 # This lets us ensure that the source package is imported, and that its
 # version is used.
-sys.path.insert(0, project_root)
+sys.path.insert(0, str(project_root))
 
 import pyfpgrowth
 
@@ -55,8 +55,8 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'FP-Growth'
-copyright = u'2016, Evan Dempsey'
+project = 'FP-Growth'
+copyright = '2016, Evan Dempsey'
 
 # The version info for the project you're documenting, acts as replacement
 # for |version| and |release|, also used in various other places throughout
@@ -209,8 +209,8 @@ latex_elements = {
 # [howto/manual]).
 latex_documents = [
     ('index', 'pyfpgrowth.tex',
-     u'FP-Growth Documentation',
-     u'Evan Dempsey', 'manual'),
+     'FP-Growth Documentation',
+     'Evan Dempsey', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at
@@ -240,8 +240,8 @@ latex_documents = [
 # (source start file, name, description, authors, manual section).
 man_pages = [
     ('index', 'pyfpgrowth',
-     u'FP-Growth Documentation',
-     [u'Evan Dempsey'], 1)
+     'FP-Growth Documentation',
+     ['Evan Dempsey'], 1)
 ]
 
 # If true, show URL addresses after external links.
@@ -255,8 +255,8 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
     ('index', 'pyfpgrowth',
-     u'FP-Growth Documentation',
-     u'Evan Dempsey',
+     'FP-Growth Documentation',
+     'Evan Dempsey',
      'pyfpgrowth',
      'One line description of project.',
      'Miscellaneous'),
