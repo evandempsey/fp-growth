@@ -5,8 +5,8 @@ FP-Growth
 .. image:: https://img.shields.io/pypi/v/pyfpgrowth.svg
         :target: https://pypi.python.org/pypi/pyfpgrowth
 
-.. image:: https://img.shields.io/travis/evandempsey/fp-growth.svg
-        :target: https://travis-ci.org/evandempsey/fp-growth
+.. image:: https://github.com/evandempsey/fp-growth/actions/workflows/ci.yml/badge.svg
+    :target: https://github.com/evandempsey/fp-growth/actions/workflows/ci.yml
 
 .. image:: https://readthedocs.org/projects/fp-growth/badge/?version=latest
         :target: https://readthedocs.org/projects/fp-growth/?badge=latest
