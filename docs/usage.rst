@@ -26,6 +26,8 @@ Use generate_association_rules to find patterns that are associated with another
 
     rules = pyfpgrowth.generate_association_rules(patterns, 0.7)
 
+``rules`` maps each antecedent to a list of ``(consequent, confidence)`` tuples.
+
 The FP-Growth algorithm uses a recursive implementation, so it is possible that if you feed a large transaction set
 into find_frequent_patterns you will see a 'maximum recursion depth exceeded' error. If you do, you can modify your recursion limit::
 
