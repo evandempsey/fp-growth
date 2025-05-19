@@ -67,6 +67,29 @@ class FPTreeTests(unittest.TestCase):
         self.assertIsNone(headers[2])
         self.assertIsNone(headers[6])
 
+    def test_tree_has_single_path_true(self):
+        """Tree with a single path is detected correctly."""
+        tree = FPTree([[1], [1], [1]], 1, None, None)
+        self.assertTrue(tree.tree_has_single_path(tree.root))
+
+    def test_tree_has_single_path_false(self):
+        """Tree branching results in ``False``."""
+        tree = FPTree([[1, 2], [1, 3]], 1, None, None)
+        self.assertFalse(tree.tree_has_single_path(tree.root))
+
+    def test_insert_tree_increments_count(self):
+        """Repeated items increment node count."""
+        tree = FPTree([[1], [1]], 1, None, None)
+        child = tree.root.get_child(1)
+        self.assertIsNotNone(child)
+        self.assertEqual(child.count, 2)
+
+    def test_zip_patterns(self):
+        """zip_patterns appends the suffix when present."""
+        tree = FPTree([], 1, 'b', 1)
+        zipped = tree.zip_patterns({('a',): 2})
+        self.assertEqual(zipped, {('a', 'b'): 2})
+
 
 class FPGrowthTests(unittest.TestCase):
     """
@@ -101,6 +124,12 @@ class FPGrowthTests(unittest.TestCase):
             (4,): [((2,), 1.0)],
         }
         self.assertEqual(rules, expected)
+
+    def test_generate_association_rules_no_results(self):
+        """High confidence threshold yields no rules."""
+        patterns = find_frequent_patterns(self.transactions, self.support_threshold)
+        rules = generate_association_rules(patterns, 1.1)
+        self.assertEqual(rules, {})
 
 
 if __name__ == '__main__':
