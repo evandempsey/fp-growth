@@ -1,3 +1,6 @@
+
+"""Frequent Pattern Growth implementation."""
+
 from __future__ import annotations
 
 import itertools
@@ -43,7 +46,7 @@ class FPTree:
         root_value: Optional[Any],
         root_count: Optional[int],
     ) -> None:
-        """Initialize the tree."""
+        """Initialize the tree using ``transactions`` and ``threshold``."""
         self.frequent: Dict[Any, int] = self.find_frequent_items(transactions, threshold)
         self.headers: Dict[Any, Optional[FPNode]] = self.build_header_table(self.frequent)
         self.root: FPNode = self.build_fptree(
@@ -121,7 +124,7 @@ class FPTree:
             self.insert_tree(remaining_items, child, headers)
 
     def tree_has_single_path(self, node: FPNode) -> bool:
-        """Return ``True`` if the tree has a single path starting at ``node``."""
+        """Return ``True`` if the subtree rooted at ``node`` is a single path."""
         num_children = len(node.children)
         if num_children > 1:
             return False

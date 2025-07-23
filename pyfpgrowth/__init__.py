@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+"""Public API for the ``pyfpgrowth`` package."""
+
 from .pyfpgrowth import generate_association_rules, find_frequent_patterns
 
 __all__ = ["generate_association_rules", "find_frequent_patterns"]
